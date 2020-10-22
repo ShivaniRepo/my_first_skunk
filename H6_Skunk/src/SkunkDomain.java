@@ -55,8 +55,9 @@ public class SkunkDomain
 			activePlayer.setTurnScore(0);
 			
 			boolean wantsToRoll = getRollChoice();
+			ui.println("wantsToRoll: " + wantsToRoll );
 			
-			while (wantsToRoll)
+			while( wantsToRoll )
 			{
 				activePlayer.setRollScore(0);
 				skunkDice.roll();
@@ -139,7 +140,7 @@ public class SkunkDomain
 
 			boolean wantsToRoll = getRollChoice();
 
-			while (wantsToRoll)
+			while( wantsToRoll )
 			{
 				skunkDice.roll();
 				ui.println("Roll is " + skunkDice.toString() + "\n");
@@ -238,7 +239,11 @@ public class SkunkDomain
 	private boolean getRollChoice()
 	{
 		String wantsToRollStr = ui.promptReadAndReturn("Roll? y or n");
-		return ('y' == wantsToRollStr.toLowerCase().charAt(0) );
+		ui.println("wantsToRollStr: " + wantsToRollStr );
+		boolean bState = ('y' == wantsToRollStr.toLowerCase().charAt(0) );
+		ui.println("bState: " + bState );
+		
+		return ( bState );
 	}
 
 }
