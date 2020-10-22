@@ -79,6 +79,8 @@ public class SkunkDomain
 				activePlayer.setRollScore( RESET_SCORE );
 				skunkDice.roll();
 				
+				ui.println("*** Remove this this is for debugging" + skunkDice.toString() );
+				
 				if (isDoubleSkunk())
 				{
 					ui.println("Two Skunks! You lose the turn, zeroing out both turn and game scores and paying 4 chips to the kitty");
@@ -287,7 +289,7 @@ public class SkunkDomain
 	
 	private boolean getRollChoice()
 	{
-		String wantsToRollStr = ui.promptReadAndReturn("Roll? y or n");
+		String wantsToRollStr = ui.promptReadAndReturn("\nRoll? y or n");
 		ui.println("wantsToRollStr: " + wantsToRollStr );
 		
 		boolean bState = ('y' == wantsToRollStr.toLowerCase().charAt(0) );
