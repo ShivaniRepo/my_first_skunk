@@ -76,6 +76,12 @@ public class Player
 		return this.gameScore;
 	}
 
+	public void scoreSkunkRoll(int SkunkPenalty)
+	{
+		setNumberChips( getNumberChips() - SkunkPenalty );
+		setTurnScore(0);	
+	}
+
 
 
 }

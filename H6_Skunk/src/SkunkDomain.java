@@ -11,6 +11,7 @@ public class SkunkDomain
 	private static final int DOUBLE_SKUNK_SUM = 2;
 	private static final int SKUNK_DEUCE_SUM = 3;
 	
+	//**********************************************************
 	
 	public SkunkUI skunkUI;
 	public UI ui;
@@ -27,6 +28,9 @@ public class SkunkDomain
 
 	public Dice skunkDice;
 
+	
+	//**********************************************************
+	
 	public SkunkDomain(SkunkUI ui)
 	{
 		this.skunkUI = ui;
@@ -39,6 +43,8 @@ public class SkunkDomain
 		this.oneMoreRoll = false;
 	}
 
+	//**********************************************************
+	
 	public boolean run()
 	{
 		ui.println("Welcome to Skunk 0.47\n");
@@ -76,8 +82,9 @@ public class SkunkDomain
 					ui.println("Two Skunks! You lose the turn, zeroing out both turn and game scores and paying 4 chips to the kitty");
 					
 					kitty += DOUBLE_SKUNK_PENALTY;
-					activePlayer.setNumberChips( activePlayer.getNumberChips() - DOUBLE_SKUNK_PENALTY );
-					activePlayer.setTurnScore( RESET_SCORE );
+					
+					activePlayer.scoreSkunkRoll( DOUBLE_SKUNK_PENALTY );
+					
 					activePlayer.setGameScore( RESET_SCORE );
 					wantsToRoll = false;
 					break;
@@ -87,17 +94,20 @@ public class SkunkDomain
 					ui.println("Skunks and Deuce! You lose the turn, zeroing out the turn score and paying 2 chips to the kitty");
 					
 					kitty += SKUNK_DEUCE_PENALTY;
-					activePlayer.setNumberChips( activePlayer.getNumberChips() - SKUNK_DEUCE_PENALTY );
-					activePlayer.setTurnScore( RESET_SCORE );
+					
+					activePlayer.scoreSkunkRoll( SKUNK_DEUCE_PENALTY );
+					
 					wantsToRoll = false;
 					break;
 				}
 				else if (isRegularSkunk())
 				{
 					ui.println("One Skunk! You lose the turn, zeroing out the turn score and paying 1 chip to the kitty");
+					
 					kitty += REGULAR_SKUNK_PENALTY;
-					activePlayer.setNumberChips( activePlayer.getNumberChips() - REGULAR_SKUNK_PENALTY );
-					activePlayer.setTurnScore( RESET_SCORE );
+					
+					activePlayer.scoreSkunkRoll( REGULAR_SKUNK_PENALTY );
+					
 					wantsToRoll = false;
 					break;
 
@@ -139,6 +149,7 @@ public class SkunkDomain
 			activePlayer = players.get(activePlayerIndex);
 
 		}
+		
 		// last round: everyone but last activePlayer gets another shot
 
 		ui.println("**** Last turn for all... ****");
@@ -158,29 +169,31 @@ public class SkunkDomain
 				if (isDoubleSkunk())
 				{
 					ui.println("Two Skunks! You lose the turn, zeroing out both turn and game scores and paying 4 chips to the kitty");
-					kitty += 4;
-					activePlayer.setNumberChips(activePlayer.getNumberChips() - 4);
-					activePlayer.setTurnScore(0);
+					
+					kitty += DOUBLE_SKUNK_PENALTY;
+					activePlayer.scoreSkunkRoll( DOUBLE_SKUNK_PENALTY );
+					
 					activePlayer.setGameScore(0);
 					wantsToRoll = false;
 					break;
 				}
 				else if (isSkunkDeuce())
 				{
-					ui.println(
-							"Skunks and Deuce! You lose the turn, zeroing out the turn score and paying 2 chips to the kitty");
-					kitty += 2;
-					activePlayer.setNumberChips(activePlayer.getNumberChips() - 2);
-					activePlayer.setTurnScore(0);
+					ui.println("Skunks and Deuce! You lose the turn, zeroing out the turn score and paying 2 chips to the kitty");
+					
+					kitty += SKUNK_DEUCE_PENALTY;
+					activePlayer.scoreSkunkRoll( SKUNK_DEUCE_PENALTY );
+					
 					wantsToRoll = false;
 
 				}
 				else if (isRegularSkunk())
 				{
 					ui.println("One Skunk!  You lose the turn, zeroing out the turn score and paying 1 chip to the kitty");
-					kitty += 1;
-					activePlayer.setNumberChips(activePlayer.getNumberChips() - 1);
-					activePlayer.setTurnScore(0);
+					
+					kitty += REGULAR_SKUNK_PENALTY;
+					activePlayer.scoreSkunkRoll( REGULAR_SKUNK_PENALTY );
+					
 					wantsToRoll = false;
 				}
 				else
@@ -219,6 +232,7 @@ public class SkunkDomain
 		for (int player = 0; player < numberOfPlayers; player++)
 		{
 			Player nextPlayer = players.get(player);
+			
 			ui.println("Final game score for " + playerNames[player] + " is " + nextPlayer.getGameScore());
 			if (nextPlayer.getGameScore() > winnerScore)
 			{
@@ -227,8 +241,7 @@ public class SkunkDomain
 			}
 		}
 
-		ui.println(
-				"Game winner is " + playerNames[winner] + " with score of " + players.get(winner).getGameScore());
+		ui.println( "Game winner is " + playerNames[winner] + " with score of " + players.get(winner).getGameScore());
 		players.get(winner).setNumberChips(players.get(winner).getNumberChips() + kitty);
 		ui.println("Game winner earns " + kitty + " chips , finishing with " + players.get(winner).getNumberChips());
 
