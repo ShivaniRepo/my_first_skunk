@@ -61,7 +61,7 @@ public class SkunkDomain
 			{
 				activePlayer.setRollScore(0);
 				skunkDice.roll();
-				if (skunkDice.getLastRoll() == 2)
+				if (isDoubleSkunk())
 				{
 					ui.println("Two Skunks! You lose the turn, zeroing out both turn and game scores and paying 4 chips to the kitty");
 					kitty += 4;
@@ -71,7 +71,7 @@ public class SkunkDomain
 					wantsToRoll = false;
 					break;
 				}
-				else if (skunkDice.getLastRoll() == 3)
+				else if (isSkunkDeuce())
 				{
 					ui.println(
 							"Skunks and Deuce! You lose the turn, zeroing out the turn score and paying 2 chips to the kitty");
@@ -81,7 +81,7 @@ public class SkunkDomain
 					wantsToRoll = false;
 					break;
 				}
-				else if (skunkDice.getDie1().getLastRoll() == 1 || skunkDice.getDie2().getLastRoll() == 1)
+				else if (isRegularSkunk())
 				{
 					ui.println("One Skunk! You lose the turn, zeroing out the turn score and paying 1 chip to the kitty");
 					kitty += 1;
@@ -145,7 +145,7 @@ public class SkunkDomain
 				skunkDice.roll();
 				ui.println("Roll is " + skunkDice.toString() + "\n");
 
-				if (skunkDice.getLastRoll() == 2)
+				if (isDoubleSkunk())
 				{
 					ui.println("Two Skunks! You lose the turn, zeroing out both turn and game scores and paying 4 chips to the kitty");
 					kitty += 4;
@@ -155,7 +155,7 @@ public class SkunkDomain
 					wantsToRoll = false;
 					break;
 				}
-				else if (skunkDice.getLastRoll() == 3)
+				else if (isSkunkDeuce())
 				{
 					ui.println(
 							"Skunks and Deuce! You lose the turn, zeroing out the turn score and paying 2 chips to the kitty");
@@ -165,7 +165,7 @@ public class SkunkDomain
 					wantsToRoll = false;
 
 				}
-				else if (skunkDice.getDie1().getLastRoll() == 1 || skunkDice.getDie2().getLastRoll() == 1)
+				else if (isRegularSkunk())
 				{
 					ui.println("One Skunk!  You lose the turn, zeroing out the turn score and paying 1 chip to the kitty");
 					kitty += 1;
@@ -236,14 +236,40 @@ public class SkunkDomain
 		return true;
 	}
 
+	//**********************************************************
+	
+	private boolean isSkunkDeuce()
+	{
+		return skunkDice.getLastRoll() == 3;
+	}
+
+	//**********************************************************
+	
+	private boolean isDoubleSkunk()
+	{
+		return skunkDice.getLastRoll() == 2;
+	}
+
+	//**********************************************************
+	
+	private boolean isRegularSkunk()
+	{
+		return skunkDice.getDie1().getLastRoll() == 1 || skunkDice.getDie2().getLastRoll() == 1;
+	}
+
+	//**********************************************************
+	
 	private boolean getRollChoice()
 	{
 		String wantsToRollStr = ui.promptReadAndReturn("Roll? y or n");
 		ui.println("wantsToRollStr: " + wantsToRollStr );
+		
 		boolean bState = ('y' == wantsToRollStr.toLowerCase().charAt(0) );
 		ui.println("bState: " + bState );
 		
 		return ( bState );
 	}
-
+	
+	//**********************************************************
+	
 }
