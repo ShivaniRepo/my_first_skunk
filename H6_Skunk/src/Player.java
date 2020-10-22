@@ -1,6 +1,7 @@
 
 public class Player
 {
+	private static final int RESET_SCORE = 0;
 	public int rollScore;
 	public int turnScore;
 	public int gameScore; // for now, same as roundScore
@@ -79,7 +80,7 @@ public class Player
 	public void scoreSkunkRoll(int SkunkPenalty)
 	{
 		setNumberChips( getNumberChips() - SkunkPenalty );
-		setTurnScore(0);	
+		setTurnScore( RESET_SCORE );	
 	}
 
 

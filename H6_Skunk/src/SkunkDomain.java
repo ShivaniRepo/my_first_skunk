@@ -56,8 +56,10 @@ public class SkunkDomain
 		{
 			ui.print("Enter name of player " + (playerNumber + 1) + ": ");
 			playerNames[playerNumber] = StdIn.readLine();
-			this.players.add(new Player(50));
+		
+			this.players.add( new Player( 50 ));
 		}
+		
 		activePlayerIndex = 0;
 		activePlayer = players.get(activePlayerIndex);
 
@@ -67,14 +69,14 @@ public class SkunkDomain
 		while (gameNotOver)
 		{
 			ui.println("Next player is " + playerNames[activePlayerIndex] + ".");
-			activePlayer.setTurnScore(0);
+			activePlayer.setTurnScore( RESET_SCORE );
 			
 			boolean wantsToRoll = getRollChoice();
 			ui.println("wantsToRoll: " + wantsToRoll );
 			
 			while( wantsToRoll )
 			{
-				activePlayer.setRollScore(0);
+				activePlayer.setRollScore( RESET_SCORE );
 				skunkDice.roll();
 				
 				if (isDoubleSkunk())
@@ -127,6 +129,7 @@ public class SkunkDomain
 			activePlayer.setGameScore(activePlayer.getGameScore() + activePlayer.getTurnScore());
 			ui.println("Gives new game score of " + activePlayer.getGameScore());
 
+			
 			ui.println("");
 			if (activePlayer.getGameScore() >= 100)
 				gameNotOver = false;
@@ -173,7 +176,7 @@ public class SkunkDomain
 					kitty += DOUBLE_SKUNK_PENALTY;
 					activePlayer.scoreSkunkRoll( DOUBLE_SKUNK_PENALTY );
 					
-					activePlayer.setGameScore(0);
+					activePlayer.setGameScore( RESET_SCORE );
 					wantsToRoll = false;
 					break;
 				}
