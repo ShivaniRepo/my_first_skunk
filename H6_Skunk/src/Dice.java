@@ -65,7 +65,6 @@ public class Dice
 
 	public Die getDie1()
 	{
-		// TODO Auto-generated method stub
 		return this.die1;
 	}
 

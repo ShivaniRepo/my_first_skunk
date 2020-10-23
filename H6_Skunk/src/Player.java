@@ -63,7 +63,6 @@ public class Player
 
 	public String getName()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

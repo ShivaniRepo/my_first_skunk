@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import edu.princeton.cs.introcs.*;
 
-public class SkunkDomain
+public class SkunkController
 {
 	private static final int RESET_SCORE = 0;
 	private static final int REGULAR_SKUNK_PENALTY = 1;
@@ -31,7 +31,7 @@ public class SkunkDomain
 	
 	//**********************************************************
 	
-	public SkunkDomain(SkunkUI ui)
+	public SkunkController(SkunkUI ui)
 	{
 		this.skunkUI = ui;
 		this.ui = ui; // hide behind the interface UI
@@ -79,7 +79,7 @@ public class SkunkDomain
 				activePlayer.setRollScore( RESET_SCORE );
 				skunkDice.roll();
 				
-				ui.println("*** Remove this this is for debugging" + skunkDice.toString() );
+				ui.println("*** Remove this, this is for debugging: " + skunkDice.toString() );
 				
 				if (isDoubleSkunk())
 				{
