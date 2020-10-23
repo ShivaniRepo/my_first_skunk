@@ -1,7 +1,9 @@
 
 public class Die
 {
-	private int lastRoll;
+	private static final int TOTAL_SIDES_OF_DICE = 6;
+	
+		private int lastRoll;
 	private boolean predictible = false;
 	private int[] rolls;
 	private int index_of_next_roll;
@@ -26,7 +28,6 @@ public class Die
 
 	public int getLastRoll() // getter or accessor method
 	{
-
 		return this.lastRoll;
 	}
 
@@ -34,7 +35,7 @@ public class Die
 						// anything
 	{
 		if (!predictible)
-			this.lastRoll = (int) (Math.random() * 6 + 1);
+			this.lastRoll = (int) (Math.random() * TOTAL_SIDES_OF_DICE + 1);
 		else
 		{
 			this.lastRoll = this.rolls[index_of_next_roll];

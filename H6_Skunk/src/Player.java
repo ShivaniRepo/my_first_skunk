@@ -1,7 +1,9 @@
 
 public class Player
 {
+	private static final int TOTAL_NUM_CHIPS_AT_START = 50;
 	private static final int RESET_SCORE = 0;
+	
 	public int rollScore;
 	public int turnScore;
 	public int gameScore; // for now, same as roundScore
@@ -12,7 +14,7 @@ public class Player
 		this.rollScore = 0;
 		this.turnScore = 0;
 		this.gameScore = 0;
-		this.numberChips = 50; // for now
+		this.numberChips = TOTAL_NUM_CHIPS_AT_START; // for now
 	}
 
 	public Player(int startingChipsPerPlayer)

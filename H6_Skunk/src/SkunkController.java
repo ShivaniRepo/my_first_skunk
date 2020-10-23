@@ -49,8 +49,13 @@ public class SkunkController
 	{
 		ui.println("Welcome to Skunk 0.47\n");
 
-		String numberPlayersString = skunkUI.promptReadAndReturn("How many players?");
-		this.numberOfPlayers = Integer.parseInt(numberPlayersString);
+		this.numberOfPlayers = getNumberOfPlayers();
+		
+		while( this.numberOfPlayers <= 1 )
+		{
+			ui.print("Invalid number of players entered: " +  this.numberOfPlayers + " Enter 2 players or higher number to start the game.\n");
+			this.numberOfPlayers = getNumberOfPlayers();			
+		}
 
 		for (int playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++)
 		{
@@ -262,6 +267,15 @@ public class SkunkController
 
 		ui.println("-----------------------");
 		return true;
+	}
+
+	//**********************************************************
+	
+	private int getNumberOfPlayers()
+	{
+		String numberPlayersString = skunkUI.promptReadAndReturn("How many players?");
+		int numOfPlayers = Integer.parseInt(numberPlayersString);
+		return numOfPlayers;
 	}
 
 	//**********************************************************
