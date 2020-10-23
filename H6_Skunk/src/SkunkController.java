@@ -3,6 +3,8 @@ import edu.princeton.cs.introcs.*;
 
 public class SkunkController
 {
+	private static final int TARGET_OF_100_POINTS = 100;
+	private static final int STARTING_NUMBER_OF_CHIPS = 50;
 	private static final int RESET_SCORE = 0;
 	private static final int REGULAR_SKUNK_PENALTY = 1;
 	private static final int SKUNK_DEUCE_PENALTY = 2;
@@ -62,7 +64,7 @@ public class SkunkController
 			ui.print("Enter name of player " + (playerNumber + 1) + ": ");
 			playerNames[playerNumber] = StdIn.readLine();
 		
-			this.players.add( new Player( 50 ));
+			this.players.add( new Player( STARTING_NUMBER_OF_CHIPS ));
 		}
 		
 		activePlayerIndex = 0;
@@ -84,46 +86,29 @@ public class SkunkController
 				activePlayer.setRollScore( RESET_SCORE );
 				skunkDice.roll();
 				
-				ui.println("*** Remove this, this is for debugging: " + skunkDice.toString() );
+				ui.println("*** Remove this, this is for debugging: " + skunkDice.toString() ); 
 				
 				if (isDoubleSkunk())
 				{
-					ui.println("Two Skunks! You lose the turn, zeroing out both turn and game scores and paying 4 chips to the kitty");
-					
-					kitty += DOUBLE_SKUNK_PENALTY;
-					
-					activePlayer.scoreSkunkRoll( DOUBLE_SKUNK_PENALTY );
-					
-					activePlayer.setGameScore( RESET_SCORE );
+					processPenaltyFor_DoubleSkunk();
 					wantsToRoll = false;
 					break;
 				}
 				else if (isSkunkDeuce())
 				{
-					ui.println("Skunks and Deuce! You lose the turn, zeroing out the turn score and paying 2 chips to the kitty");
-					
-					kitty += SKUNK_DEUCE_PENALTY;
-					
-					activePlayer.scoreSkunkRoll( SKUNK_DEUCE_PENALTY );
-					
+					processPenaltyFor_SkunkDeuce();					
 					wantsToRoll = false;
 					break;
 				}
 				else if (isRegularSkunk())
 				{
-					ui.println("One Skunk! You lose the turn, zeroing out the turn score and paying 1 chip to the kitty");
-					
-					kitty += REGULAR_SKUNK_PENALTY;
-					
-					activePlayer.scoreSkunkRoll( REGULAR_SKUNK_PENALTY );
-					
+					processPenaltyFor_RegularSkunk();					
 					wantsToRoll = false;
 					break;
-
 				}
 
 				activePlayer.setRollScore( skunkDice.getLastRoll() );
-				activePlayer.setTurnScore(activePlayer.getTurnScore() + skunkDice.getLastRoll() );
+				activePlayer.setTurnScore( activePlayer.getTurnScore() + skunkDice.getLastRoll() );
 				ui.println(	"Roll of " + skunkDice.toString() + ", gives new turn score of " + activePlayer.getTurnScore());
 
 				wantsToRoll = getRollChoice();
@@ -138,7 +123,7 @@ public class SkunkController
 
 			
 			ui.println("");
-			if (activePlayer.getGameScore() >= 100)
+			if (activePlayer.getGameScore() >= TARGET_OF_100_POINTS)
 				gameNotOver = false;
 
 			ui.println("Scoreboard: ");
@@ -160,8 +145,10 @@ public class SkunkController
 
 		}
 		
+		//
 		// last round: everyone but last activePlayer gets another shot
-
+		//
+		
 		ui.println("**** Last turn for all... ****");
 
 		for (int i = activePlayerIndex, count = 0; count < numberOfPlayers-1; i = (i++) % numberOfPlayers, count++)
@@ -178,32 +165,20 @@ public class SkunkController
 
 				if (isDoubleSkunk())
 				{
-					ui.println("Two Skunks! You lose the turn, zeroing out both turn and game scores and paying 4 chips to the kitty");
-					
-					kitty += DOUBLE_SKUNK_PENALTY;
-					activePlayer.scoreSkunkRoll( DOUBLE_SKUNK_PENALTY );
-					
-					activePlayer.setGameScore( RESET_SCORE );
+					processPenaltyFor_DoubleSkunk();
 					wantsToRoll = false;
+					
 					break;
 				}
 				else if (isSkunkDeuce())
 				{
-					ui.println("Skunks and Deuce! You lose the turn, zeroing out the turn score and paying 2 chips to the kitty");
-					
-					kitty += SKUNK_DEUCE_PENALTY;
-					activePlayer.scoreSkunkRoll( SKUNK_DEUCE_PENALTY );
-					
+					processPenaltyFor_SkunkDeuce();
 					wantsToRoll = false;
 
 				}
 				else if (isRegularSkunk())
 				{
-					ui.println("One Skunk!  You lose the turn, zeroing out the turn score and paying 1 chip to the kitty");
-					
-					kitty += REGULAR_SKUNK_PENALTY;
-					activePlayer.scoreSkunkRoll( REGULAR_SKUNK_PENALTY );
-					
+					processPenaltyFor_RegularSkunk();					
 					wantsToRoll = false;
 				}
 				else
@@ -267,6 +242,38 @@ public class SkunkController
 
 		ui.println("-----------------------");
 		return true;
+	}
+
+	//**********************************************************
+	
+	private void processPenaltyFor_DoubleSkunk()
+	{
+		ui.println("Two Skunks! You lose the turn, zeroing out both turn and game scores and paying 4 chips to the kitty");
+		
+		kitty += DOUBLE_SKUNK_PENALTY;
+		activePlayer.scoreSkunkRoll( DOUBLE_SKUNK_PENALTY );
+		
+		activePlayer.setGameScore( RESET_SCORE );
+	}
+
+	//**********************************************************
+	
+	private void processPenaltyFor_SkunkDeuce()
+	{
+		ui.println("Skunks and Deuce! You lose the turn, zeroing out the turn score and paying 2 chips to the kitty");
+		
+		kitty += SKUNK_DEUCE_PENALTY;
+		activePlayer.scoreSkunkRoll( SKUNK_DEUCE_PENALTY );
+	}
+
+	//**********************************************************
+	
+	private void processPenaltyFor_RegularSkunk()
+	{
+		ui.println("One Skunk!  You lose the turn, zeroing out the turn score and paying 1 chip to the kitty");
+		
+		kitty += REGULAR_SKUNK_PENALTY;
+		activePlayer.scoreSkunkRoll( REGULAR_SKUNK_PENALTY );		
 	}
 
 	//**********************************************************
