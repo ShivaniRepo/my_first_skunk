@@ -311,6 +311,8 @@ public class SkunkController
 	}
 
 	//**********************************************************
+	// This code was at two places, so refactoring it as a function.
+	//**********************************************************		
 	
 	private boolean isSkunkDeuce()
 	{
@@ -318,6 +320,8 @@ public class SkunkController
 	}
 
 	//**********************************************************
+	// This code was at two places, so refactoring it as a function.
+	//**********************************************************	
 	
 	private boolean isDoubleSkunk()
 	{
@@ -325,6 +329,8 @@ public class SkunkController
 	}
 
 	//**********************************************************
+	// This code was at two places, so refactoring it as a function.
+	//**********************************************************	
 	
 	private boolean isRegularSkunk()
 	{
@@ -332,6 +338,8 @@ public class SkunkController
 	}
 
 	//**********************************************************
+	// This code was at multiple places, so refactoring it as a function.
+	//**********************************************************	
 	
 	private boolean getRollChoice()
 	{
