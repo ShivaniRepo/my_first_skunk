@@ -51,8 +51,21 @@ public class SkunkController
 	{
 		ui.println("Welcome to Skunk 0.47\n");
 
-		this.numberOfPlayers = getNumberOfPlayers();
+		//
+		//Try, catch code is added to catch the exception if the user entered non numeric input
+		//
+		try
+		{
+			this.numberOfPlayers = getNumberOfPlayers();
+		}
+		catch( NumberFormatException e )
+		{
+			ui.print("NumberFormatException: Invalid input.\n" );
+		}
 		
+		//
+		//getNumberOfPlayers() funtion added to give user chances to fix the wrong player number.
+		//
 		while( this.numberOfPlayers <= 1 )
 		{
 			ui.print("Invalid number of players entered: " +  this.numberOfPlayers + " Enter 2 players or higher number to start the game.\n");
@@ -86,7 +99,7 @@ public class SkunkController
 				activePlayer.setRollScore( RESET_SCORE );
 				skunkDice.roll();
 				
-				ui.println("*** Remove this, this is for debugging: " + skunkDice.toString() ); 
+				//ui.println("*** Remove this, this is for debugging: " + skunkDice.toString() ); 
 				
 				if (isDoubleSkunk())
 				{
@@ -245,6 +258,9 @@ public class SkunkController
 	}
 
 	//**********************************************************
+	//This part of the code is repeated at two places, that motivated me to to create 
+	// a separate function and replaced code with this function.
+	//**********************************************************
 	
 	private void processPenaltyFor_DoubleSkunk()
 	{
@@ -257,7 +273,10 @@ public class SkunkController
 	}
 
 	//**********************************************************
-	
+	//This part of the code is repeated at two places, that motivated me to to create 
+	// a separate function and replaced code with this function.
+	//**********************************************************
+		
 	private void processPenaltyFor_SkunkDeuce()
 	{
 		ui.println("Skunks and Deuce! You lose the turn, zeroing out the turn score and paying 2 chips to the kitty");
@@ -267,7 +286,10 @@ public class SkunkController
 	}
 
 	//**********************************************************
-	
+	// This part of the code is repeated at two places, that motivated me to to create 
+	// a separate function and replaced code with this function.
+	//**********************************************************
+		
 	private void processPenaltyFor_RegularSkunk()
 	{
 		ui.println("One Skunk!  You lose the turn, zeroing out the turn score and paying 1 chip to the kitty");
@@ -277,6 +299,9 @@ public class SkunkController
 	}
 
 	//**********************************************************
+	// Added this code to handle case if user enters invalid player number.
+	// This function is used in the function above the gives user multiple tries till the number of players is correct.
+	//**********************************************************		
 	
 	private int getNumberOfPlayers()
 	{
